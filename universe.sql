@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.9 (Ubuntu 12.9-2.pgdg20.04+1)
--- Dumped by pg_dump version 12.9 (Ubuntu 12.9-2.pgdg20.04+1)
+-- Dumped from database version 12.6 (Debian 12.6-1.pgdg90+1)
+-- Dumped by pg_dump version 12.6 (Debian 12.6-1.pgdg90+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -16,17 +16,17 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-DROP DATABASE universe;
+DROP DATABASE IF EXISTS students;
 --
--- Name: universe; Type: DATABASE; Schema: -; Owner: freecodecamp
+-- Name: students; Type: DATABASE; Schema: -; Owner: freecodecamp
 --
 
-CREATE DATABASE universe WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C.UTF-8' LC_CTYPE = 'C.UTF-8';
+CREATE DATABASE students WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C.UTF-8' LC_CTYPE = 'C.UTF-8';
 
 
-ALTER DATABASE universe OWNER TO freecodecamp;
+ALTER DATABASE students OWNER TO freecodecamp;
 
-\connect universe
+\connect students
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -44,25 +44,22 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: galaxy; Type: TABLE; Schema: public; Owner: freecodecamp
+-- Name: courses; Type: TABLE; Schema: public; Owner: freecodecamp
 --
 
-CREATE TABLE public.galaxy (
-    galaxy_id integer NOT NULL,
-    name character varying(20) NOT NULL,
-    distance integer,
-    diameter integer,
-    introduce text
+CREATE TABLE public.courses (
+    course_id integer NOT NULL,
+    course character varying(100) NOT NULL
 );
 
 
-ALTER TABLE public.galaxy OWNER TO freecodecamp;
+ALTER TABLE public.courses OWNER TO freecodecamp;
 
 --
--- Name: galaxy_galaxy_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
+-- Name: courses_course_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
 --
 
-CREATE SEQUENCE public.galaxy_galaxy_id_seq
+CREATE SEQUENCE public.courses_course_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -71,36 +68,44 @@ CREATE SEQUENCE public.galaxy_galaxy_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.galaxy_galaxy_id_seq OWNER TO freecodecamp;
+ALTER TABLE public.courses_course_id_seq OWNER TO freecodecamp;
 
 --
--- Name: galaxy_galaxy_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
+-- Name: courses_course_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
 --
 
-ALTER SEQUENCE public.galaxy_galaxy_id_seq OWNED BY public.galaxy.galaxy_id;
+ALTER SEQUENCE public.courses_course_id_seq OWNED BY public.courses.course_id;
 
 
 --
--- Name: moon; Type: TABLE; Schema: public; Owner: freecodecamp
+-- Name: majors; Type: TABLE; Schema: public; Owner: freecodecamp
 --
 
-CREATE TABLE public.moon (
-    moon_id integer NOT NULL,
-    name character varying(20) NOT NULL,
-    planet_id integer,
-    moon_2 integer,
-    moon32 integer,
-    moon321 integer
+CREATE TABLE public.majors (
+    major_id integer NOT NULL,
+    major character varying(50) NOT NULL
 );
 
 
-ALTER TABLE public.moon OWNER TO freecodecamp;
+ALTER TABLE public.majors OWNER TO freecodecamp;
 
 --
--- Name: moon_moon_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
+-- Name: majors_courses; Type: TABLE; Schema: public; Owner: freecodecamp
 --
 
-CREATE SEQUENCE public.moon_moon_id_seq
+CREATE TABLE public.majors_courses (
+    major_id integer NOT NULL,
+    course_id integer NOT NULL
+);
+
+
+ALTER TABLE public.majors_courses OWNER TO freecodecamp;
+
+--
+-- Name: majors_major_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
+--
+
+CREATE SEQUENCE public.majors_major_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -109,33 +114,35 @@ CREATE SEQUENCE public.moon_moon_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.moon_moon_id_seq OWNER TO freecodecamp;
+ALTER TABLE public.majors_major_id_seq OWNER TO freecodecamp;
 
 --
--- Name: moon_moon_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
+-- Name: majors_major_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
 --
 
-ALTER SEQUENCE public.moon_moon_id_seq OWNED BY public.moon.moon_id;
+ALTER SEQUENCE public.majors_major_id_seq OWNED BY public.majors.major_id;
 
 
 --
--- Name: mytable; Type: TABLE; Schema: public; Owner: freecodecamp
+-- Name: students; Type: TABLE; Schema: public; Owner: freecodecamp
 --
 
-CREATE TABLE public.mytable (
-    mytable_id integer NOT NULL,
-    name character varying(20) NOT NULL,
-    hobby character varying(20)
+CREATE TABLE public.students (
+    student_id integer NOT NULL,
+    first_name character varying(50) NOT NULL,
+    last_name character varying(50) NOT NULL,
+    major_id integer,
+    gpa numeric(2,1)
 );
 
 
-ALTER TABLE public.mytable OWNER TO freecodecamp;
+ALTER TABLE public.students OWNER TO freecodecamp;
 
 --
--- Name: mytable_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
+-- Name: students_student_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
 --
 
-CREATE SEQUENCE public.mytable_id_seq
+CREATE SEQUENCE public.students_student_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -144,382 +151,218 @@ CREATE SEQUENCE public.mytable_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.mytable_id_seq OWNER TO freecodecamp;
+ALTER TABLE public.students_student_id_seq OWNER TO freecodecamp;
 
 --
--- Name: mytable_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
+-- Name: students_student_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
 --
 
-ALTER SEQUENCE public.mytable_id_seq OWNED BY public.mytable.mytable_id;
+ALTER SEQUENCE public.students_student_id_seq OWNED BY public.students.student_id;
 
 
 --
--- Name: planet; Type: TABLE; Schema: public; Owner: freecodecamp
+-- Name: courses course_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
 --
 
-CREATE TABLE public.planet (
-    planet_id integer NOT NULL,
-    name character varying(20) NOT NULL,
-    area numeric(5,2),
-    dead boolean,
-    solar_system boolean,
-    star_id integer
-);
+ALTER TABLE ONLY public.courses ALTER COLUMN course_id SET DEFAULT nextval('public.courses_course_id_seq'::regclass);
 
 
-ALTER TABLE public.planet OWNER TO freecodecamp;
-
---
--- Name: planet_planet_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
---
-
-CREATE SEQUENCE public.planet_planet_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.planet_planet_id_seq OWNER TO freecodecamp;
-
---
--- Name: planet_planet_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
---
-
-ALTER SEQUENCE public.planet_planet_id_seq OWNED BY public.planet.planet_id;
-
-
---
--- Name: star; Type: TABLE; Schema: public; Owner: freecodecamp
---
-
-CREATE TABLE public.star (
-    star_id integer NOT NULL,
-    name character varying(20) NOT NULL,
-    galaxy_id integer,
-    star_name character varying(20),
-    star_system character varying(20),
-    star_syst1em character varying(20)
-);
-
-
-ALTER TABLE public.star OWNER TO freecodecamp;
-
---
--- Name: start_star_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
---
-
-CREATE SEQUENCE public.start_star_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.start_star_id_seq OWNER TO freecodecamp;
-
---
--- Name: start_star_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
---
-
-ALTER SEQUENCE public.start_star_id_seq OWNED BY public.star.star_id;
-
-
---
--- Name: galaxy galaxy_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
---
-
-ALTER TABLE ONLY public.galaxy ALTER COLUMN galaxy_id SET DEFAULT nextval('public.galaxy_galaxy_id_seq'::regclass);
-
-
---
--- Name: moon moon_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
---
-
-ALTER TABLE ONLY public.moon ALTER COLUMN moon_id SET DEFAULT nextval('public.moon_moon_id_seq'::regclass);
-
-
---
--- Name: mytable mytable_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
---
-
-ALTER TABLE ONLY public.mytable ALTER COLUMN mytable_id SET DEFAULT nextval('public.mytable_id_seq'::regclass);
-
-
---
--- Name: planet planet_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
---
-
-ALTER TABLE ONLY public.planet ALTER COLUMN planet_id SET DEFAULT nextval('public.planet_planet_id_seq'::regclass);
-
-
---
--- Name: star star_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
---
-
-ALTER TABLE ONLY public.star ALTER COLUMN star_id SET DEFAULT nextval('public.start_star_id_seq'::regclass);
-
-
---
--- Data for Name: galaxy; Type: TABLE DATA; Schema: public; Owner: freecodecamp
---
-
-INSERT INTO public.galaxy VALUES (1, 'solar system', NULL, NULL, NULL);
-INSERT INTO public.galaxy VALUES (2, 'solar 2', NULL, NULL, NULL);
-INSERT INTO public.galaxy VALUES (3, 'solar 3', NULL, NULL, NULL);
-INSERT INTO public.galaxy VALUES (4, 'solar 4', NULL, NULL, NULL);
-INSERT INTO public.galaxy VALUES (5, 'solar 5', NULL, NULL, NULL);
-INSERT INTO public.galaxy VALUES (6, 'solar 6', NULL, NULL, NULL);
-
-
---
--- Data for Name: moon; Type: TABLE DATA; Schema: public; Owner: freecodecamp
---
-
-INSERT INTO public.moon VALUES (1, 'American', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (2, 'Russia', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (3, 'China', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (4, 'Vietnam', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (5, 'Vietnam', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (6, 'Vietnam', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (7, 'Vietnam', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (8, 'Vietnam', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (9, 'Vietnam', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (10, 'Vietnam', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (11, 'Vietnam', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (12, 'Vietnam', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (13, 'Vietnam', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (14, 'Vietnam', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (15, 'Vietnam', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (16, 'Vietnam', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (17, 'Vietnam', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (18, 'Vietnam', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (19, 'Vietnam', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (20, 'Vietnam', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (21, 'Vietnam', 1, NULL, NULL, NULL);
-INSERT INTO public.moon VALUES (22, 'Vietnam', 1, NULL, NULL, NULL);
-
-
---
--- Data for Name: mytable; Type: TABLE DATA; Schema: public; Owner: freecodecamp
---
-
-INSERT INTO public.mytable VALUES (1, 'Obama', NULL);
-INSERT INTO public.mytable VALUES (2, 'Trump', NULL);
-INSERT INTO public.mytable VALUES (3, 'Bush', NULL);
-
-
---
--- Data for Name: planet; Type: TABLE DATA; Schema: public; Owner: freecodecamp
---
-
-INSERT INTO public.planet VALUES (1, 'earth', NULL, NULL, NULL, 1);
-INSERT INTO public.planet VALUES (2, 'mars', NULL, NULL, NULL, 1);
-INSERT INTO public.planet VALUES (3, 'mercury', NULL, NULL, NULL, 2);
-INSERT INTO public.planet VALUES (4, 'venus', NULL, NULL, NULL, 3);
-INSERT INTO public.planet VALUES (5, 'venus1', NULL, NULL, NULL, 3);
-INSERT INTO public.planet VALUES (6, 'venus12', NULL, NULL, NULL, 3);
-INSERT INTO public.planet VALUES (7, 'venus3', NULL, NULL, NULL, 3);
-INSERT INTO public.planet VALUES (8, 'venus5', NULL, NULL, NULL, 3);
-INSERT INTO public.planet VALUES (9, 'venus6', NULL, NULL, NULL, 3);
-INSERT INTO public.planet VALUES (10, 'venus7', NULL, NULL, NULL, 3);
-INSERT INTO public.planet VALUES (11, 'venus8', NULL, NULL, NULL, 3);
-INSERT INTO public.planet VALUES (12, 'venus9', NULL, NULL, NULL, 3);
-
-
---
--- Data for Name: star; Type: TABLE DATA; Schema: public; Owner: freecodecamp
---
-
-INSERT INTO public.star VALUES (1, 'mars', 1, NULL, NULL, NULL);
-INSERT INTO public.star VALUES (2, 'mercury', 2, NULL, NULL, NULL);
-INSERT INTO public.star VALUES (3, 'venus', 3, NULL, NULL, NULL);
-INSERT INTO public.star VALUES (4, 'jupiter', 4, NULL, NULL, NULL);
-INSERT INTO public.star VALUES (5, 'neptune', 5, NULL, NULL, NULL);
-INSERT INTO public.star VALUES (6, 'uranus', 6, NULL, NULL, NULL);
-
-
---
--- Name: galaxy_galaxy_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
---
-
-SELECT pg_catalog.setval('public.galaxy_galaxy_id_seq', 6, true);
-
-
---
--- Name: moon_moon_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
---
-
-SELECT pg_catalog.setval('public.moon_moon_id_seq', 22, true);
-
-
---
--- Name: mytable_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
---
-
-SELECT pg_catalog.setval('public.mytable_id_seq', 3, true);
-
-
---
--- Name: planet_planet_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
---
-
-SELECT pg_catalog.setval('public.planet_planet_id_seq', 12, true);
-
-
---
--- Name: start_star_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
---
-
-SELECT pg_catalog.setval('public.start_star_id_seq', 6, true);
-
-
---
--- Name: galaxy a; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
---
-
-ALTER TABLE ONLY public.galaxy
-    ADD CONSTRAINT a UNIQUE (name);
-
-
---
--- Name: star ab; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
---
-
-ALTER TABLE ONLY public.star
-    ADD CONSTRAINT ab UNIQUE (name);
-
-
 --
--- Name: star ab1; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: majors major_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.star
-    ADD CONSTRAINT ab1 UNIQUE (star_id);
+ALTER TABLE ONLY public.majors ALTER COLUMN major_id SET DEFAULT nextval('public.majors_major_id_seq'::regclass);
 
 
 --
--- Name: planet ab3; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: students student_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.planet
-    ADD CONSTRAINT ab3 UNIQUE (name);
+ALTER TABLE ONLY public.students ALTER COLUMN student_id SET DEFAULT nextval('public.students_student_id_seq'::regclass);
 
 
 --
--- Name: planet ab32; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Data for Name: courses; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.planet
-    ADD CONSTRAINT ab32 UNIQUE (planet_id);
+INSERT INTO public.courses VALUES (23, 'Data Structures and Algorithms');
+INSERT INTO public.courses VALUES (24, 'Web Programming');
+INSERT INTO public.courses VALUES (25, 'Database Systems');
+INSERT INTO public.courses VALUES (26, 'Computer Networks');
+INSERT INTO public.courses VALUES (27, 'SQL');
+INSERT INTO public.courses VALUES (28, 'Machine Learning');
+INSERT INTO public.courses VALUES (29, 'Computer Systems');
+INSERT INTO public.courses VALUES (30, 'Web Applications');
+INSERT INTO public.courses VALUES (31, 'Artificial Intelligence');
+INSERT INTO public.courses VALUES (32, 'Python');
+INSERT INTO public.courses VALUES (33, 'Object-Oriented Programming');
+INSERT INTO public.courses VALUES (34, 'Calculus');
+INSERT INTO public.courses VALUES (35, 'Game Architecture');
+INSERT INTO public.courses VALUES (36, 'Algorithms');
+INSERT INTO public.courses VALUES (37, 'UNIX');
+INSERT INTO public.courses VALUES (38, 'Server Administration');
+INSERT INTO public.courses VALUES (39, 'Network Security');
 
 
 --
--- Name: moon ab322; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Data for Name: majors; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.moon
-    ADD CONSTRAINT ab322 UNIQUE (moon_id);
+INSERT INTO public.majors VALUES (36, 'Database Administration');
+INSERT INTO public.majors VALUES (37, 'Web Development');
+INSERT INTO public.majors VALUES (38, 'Data Science');
+INSERT INTO public.majors VALUES (39, 'Network Engineering');
+INSERT INTO public.majors VALUES (40, 'Computer Programming');
+INSERT INTO public.majors VALUES (41, 'Game Design');
+INSERT INTO public.majors VALUES (42, 'System Administration');
 
 
 --
--- Name: moon ab3f22; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Data for Name: majors_courses; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.moon
-    ADD CONSTRAINT ab3f22 UNIQUE (moon32);
+INSERT INTO public.majors_courses VALUES (36, 23);
+INSERT INTO public.majors_courses VALUES (37, 24);
+INSERT INTO public.majors_courses VALUES (36, 25);
+INSERT INTO public.majors_courses VALUES (38, 23);
+INSERT INTO public.majors_courses VALUES (39, 26);
+INSERT INTO public.majors_courses VALUES (36, 27);
+INSERT INTO public.majors_courses VALUES (38, 28);
+INSERT INTO public.majors_courses VALUES (39, 29);
+INSERT INTO public.majors_courses VALUES (40, 26);
+INSERT INTO public.majors_courses VALUES (36, 30);
+INSERT INTO public.majors_courses VALUES (41, 31);
+INSERT INTO public.majors_courses VALUES (38, 32);
+INSERT INTO public.majors_courses VALUES (40, 33);
+INSERT INTO public.majors_courses VALUES (42, 29);
+INSERT INTO public.majors_courses VALUES (41, 34);
+INSERT INTO public.majors_courses VALUES (37, 23);
+INSERT INTO public.majors_courses VALUES (38, 34);
+INSERT INTO public.majors_courses VALUES (37, 33);
+INSERT INTO public.majors_courses VALUES (41, 35);
+INSERT INTO public.majors_courses VALUES (42, 26);
+INSERT INTO public.majors_courses VALUES (41, 36);
+INSERT INTO public.majors_courses VALUES (42, 37);
+INSERT INTO public.majors_courses VALUES (42, 38);
+INSERT INTO public.majors_courses VALUES (40, 29);
+INSERT INTO public.majors_courses VALUES (40, 32);
+INSERT INTO public.majors_courses VALUES (39, 39);
+INSERT INTO public.majors_courses VALUES (37, 30);
+INSERT INTO public.majors_courses VALUES (39, 36);
 
 
 --
--- Name: galaxy b; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Data for Name: students; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.galaxy
-    ADD CONSTRAINT b UNIQUE (galaxy_id);
+INSERT INTO public.students VALUES (6, 'Rhea', 'Kellems', 36, 2.5);
+INSERT INTO public.students VALUES (7, 'Emma', 'Gilbert', NULL, NULL);
+INSERT INTO public.students VALUES (8, 'Kimberly', 'Whitley', 37, 3.8);
+INSERT INTO public.students VALUES (9, 'Jimmy', 'Felipe', 36, 3.7);
+INSERT INTO public.students VALUES (10, 'Kyle', 'Stimson', NULL, 2.8);
+INSERT INTO public.students VALUES (11, 'Casares', 'Hijo', 41, 4.0);
+INSERT INTO public.students VALUES (12, 'Noe', 'Savage', NULL, 3.6);
+INSERT INTO public.students VALUES (13, 'Sterling', 'Boss', 41, 3.9);
+INSERT INTO public.students VALUES (14, 'Brian', 'Davis', NULL, 2.3);
+INSERT INTO public.students VALUES (15, 'Kaija', 'Uronen', 41, 3.7);
+INSERT INTO public.students VALUES (16, 'Faye', 'Conn', 41, 2.1);
+INSERT INTO public.students VALUES (17, 'Efren', 'Reilly', 37, 3.9);
+INSERT INTO public.students VALUES (18, 'Danh', 'Nhung', NULL, 2.4);
+INSERT INTO public.students VALUES (19, 'Maxine', 'Hagenes', 36, 2.9);
+INSERT INTO public.students VALUES (20, 'Larry', 'Saunders', 38, 2.2);
+INSERT INTO public.students VALUES (21, 'Karl', 'Kuhar', 37, NULL);
+INSERT INTO public.students VALUES (22, 'Lieke', 'Hazenveld', 41, 3.5);
+INSERT INTO public.students VALUES (23, 'Obie', 'Hilpert', 37, NULL);
+INSERT INTO public.students VALUES (24, 'Peter', 'Booysen', NULL, 2.9);
+INSERT INTO public.students VALUES (25, 'Nathan', 'Turner', 36, 3.3);
+INSERT INTO public.students VALUES (26, 'Gerald', 'Osiki', 38, 2.2);
+INSERT INTO public.students VALUES (27, 'Vanya', 'Hassanah', 41, 4.0);
+INSERT INTO public.students VALUES (28, 'Roxelana', 'Florescu', 36, 3.2);
+INSERT INTO public.students VALUES (29, 'Helene', 'Parker', 38, 3.4);
+INSERT INTO public.students VALUES (30, 'Mariana', 'Russel', 37, 1.8);
+INSERT INTO public.students VALUES (31, 'Ajit', 'Dhungel', NULL, 3.0);
+INSERT INTO public.students VALUES (32, 'Mehdi', 'Vandenberghe', 36, 1.9);
+INSERT INTO public.students VALUES (33, 'Dejon', 'Howell', 37, 4.0);
+INSERT INTO public.students VALUES (34, 'Aliya', 'Gulgowski', 42, 2.6);
+INSERT INTO public.students VALUES (35, 'Ana', 'Tupajic', 38, 3.1);
+INSERT INTO public.students VALUES (36, 'Hugo', 'Duran', NULL, 3.8);
 
 
 --
--- Name: galaxy galaxy_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: courses_course_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.galaxy
-    ADD CONSTRAINT galaxy_pkey PRIMARY KEY (galaxy_id);
+SELECT pg_catalog.setval('public.courses_course_id_seq', 39, true);
 
 
 --
--- Name: moon moon_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: majors_major_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.moon
-    ADD CONSTRAINT moon_pkey PRIMARY KEY (moon_id);
+SELECT pg_catalog.setval('public.majors_major_id_seq', 42, true);
 
 
 --
--- Name: mytable mytable_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: students_student_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.mytable
-    ADD CONSTRAINT mytable_pkey PRIMARY KEY (mytable_id);
+SELECT pg_catalog.setval('public.students_student_id_seq', 36, true);
 
 
 --
--- Name: planet planet_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: courses courses_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.planet
-    ADD CONSTRAINT planet_pkey PRIMARY KEY (planet_id);
+ALTER TABLE ONLY public.courses
+    ADD CONSTRAINT courses_pkey PRIMARY KEY (course_id);
 
 
 --
--- Name: star start_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: majors_courses majors_courses_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.star
-    ADD CONSTRAINT start_pkey PRIMARY KEY (star_id);
+ALTER TABLE ONLY public.majors_courses
+    ADD CONSTRAINT majors_courses_pkey PRIMARY KEY (major_id, course_id);
 
 
 --
--- Name: mytable unieque_name; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: majors majors_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.mytable
-    ADD CONSTRAINT unieque_name UNIQUE (name);
+ALTER TABLE ONLY public.majors
+    ADD CONSTRAINT majors_pkey PRIMARY KEY (major_id);
 
 
 --
--- Name: mytable unieque_namekey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: students students_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.mytable
-    ADD CONSTRAINT unieque_namekey UNIQUE (mytable_id);
+ALTER TABLE ONLY public.students
+    ADD CONSTRAINT students_pkey PRIMARY KEY (student_id);
 
 
 --
--- Name: moon moon_planet_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: majors_courses majors_courses_course_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.moon
-    ADD CONSTRAINT moon_planet_id_fkey FOREIGN KEY (planet_id) REFERENCES public.planet(planet_id);
+ALTER TABLE ONLY public.majors_courses
+    ADD CONSTRAINT majors_courses_course_id_fkey FOREIGN KEY (course_id) REFERENCES public.courses(course_id);
 
 
 --
--- Name: planet planet_star_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: majors_courses majors_courses_major_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.planet
-    ADD CONSTRAINT planet_star_id_fkey FOREIGN KEY (star_id) REFERENCES public.star(star_id);
+ALTER TABLE ONLY public.majors_courses
+    ADD CONSTRAINT majors_courses_major_id_fkey FOREIGN KEY (major_id) REFERENCES public.majors(major_id);
 
 
 --
--- Name: star star_galaxy_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: students students_major_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.star
-    ADD CONSTRAINT star_galaxy_id_fkey FOREIGN KEY (galaxy_id) REFERENCES public.galaxy(galaxy_id);
+ALTER TABLE ONLY public.students
+    ADD CONSTRAINT students_major_id_fkey FOREIGN KEY (major_id) REFERENCES public.majors(major_id);
 
 
 --
