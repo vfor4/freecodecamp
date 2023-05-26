@@ -1,1 +1,2 @@
-git revert vs git reset
+git revert vs git reset 
+add git conntent #3
